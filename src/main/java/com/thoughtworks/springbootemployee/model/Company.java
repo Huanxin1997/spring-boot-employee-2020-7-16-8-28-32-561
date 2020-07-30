@@ -13,9 +13,7 @@ public class Company {
     @OneToMany
     private List<Employee> employees;
 
-    public Company(int id, String name) {
-        this.companyName = name;
-        this.id = id;
+    public Company() {
     }
 
     @Override
