@@ -18,13 +18,6 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     public EmployeeController() {
-        employees.add(new Employee(1, "Hans", 24, "male", 5000));
-        employees.add(new Employee(2, "Amy", 22,"female", 9000));
-        employees.add(new Employee(3, "Ray", 28,"male", 10000));
-        employees.add(new Employee(4, "Sky", 27,"female", 8000));
-        employees.add(new Employee(5, "Hovees", 25,"male", 7000));
-        employees.add(new Employee(6, "Mandy", 22,"male", 8888));
-        employees.add(new Employee(7, "Ace", 23,"male", 9000));
     }
 
     @GetMapping
@@ -42,16 +35,6 @@ public class EmployeeController {
             employeesList = (List<Employee>) employeeService.getEmployeeByPage(page, pageSize);
         }
 
-        return employeesList;
-    }
-
-    private List<Employee> getEmployeesByGender(String gender) {
-        List<Employee> employeesList = new LinkedList<>();
-        for (Employee employee : employees) {
-            if (employee.getGender().equals(gender)) {
-                employeesList.add(employee);
-            }
-        }
         return employeesList;
     }
 
