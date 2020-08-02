@@ -3,7 +3,7 @@ create table employee(
     name VARCHAR(255),
     gender VARCHAR(255),
     age INT,
-    salary INT,
+    salery INT,
     company_id INT,
     foreign key (company_id) references company(company_id)
 )

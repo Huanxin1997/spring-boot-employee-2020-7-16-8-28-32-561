@@ -1,5 +1,7 @@
 package com.thoughtworks.springbootemployee.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,37 +12,35 @@ public class Employee {
     private String name;
     private Integer age;
     private String gender;
-    private Double salary;
+    private Double salery;
     private Integer companyId;
 
     public Employee() {
     }
 
-    public Employee(Integer id, String name, Integer age, String gender, Double salary) {
+    public Employee(String name, Integer age, String gender, Double salery, Integer companyId) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.salary = salary;
-
+        this.salery = salery;
+        this.companyId = companyId;
     }
 
-    public Employee(Integer id, String name, Integer age, String gender, Double salary, Integer companyId) {
+    public Employee(Integer id, String name, Integer age, String gender, Double salery) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.salary = salary;
-        this.companyId = companyId;
+        this.salery = salery;
     }
 
-    public Employee(String name, Integer age, String gender, Double salary, Integer companyId ) {
+    public Employee(String name, Integer age, String gender, Double salery) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.salary = salary;
-        this.companyId = companyId;
-
+        this.salery = salery;
     }
 
     public Integer getId() {
@@ -75,12 +75,12 @@ public class Employee {
         this.gender = gender;
     }
 
-    public Double getSalary() {
-        return salary;
+    public Double getSalery() {
+        return salery;
     }
 
-    public void setSalary(Double salary) {
-        this.salary = salary;
+    public void setSalery(Double salery) {
+        this.salery = salery;
     }
 
     public Integer getCompanyId() {

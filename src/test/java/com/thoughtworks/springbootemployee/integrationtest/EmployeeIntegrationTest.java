@@ -38,12 +38,12 @@ public class EmployeeIntegrationTest {
     }
 
     @Test
-    void should_return_employees_when_get_employees_given_nothing() throws Exception{
+    void should_return_employees_when_get_employees_given_nothing() throws Exception {
         //given
         Company company = new Company(1, "OOCL", 10000, null);
         Company savedCompany = companyRepository.save(company);
 
-        Employee employee = new Employee(1,"user1", 18, "male", 1000.0, savedCompany.getCompany_id());
+        Employee employee = new Employee("user1", 18, "male", 1000.0, savedCompany.getCompany_id());
         employeeRepository.save(employee);
 
         //when
@@ -52,18 +52,18 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].name").value(employee.getName()))
                 .andExpect(jsonPath("$[0].gender").value(employee.getGender()))
-                .andExpect(jsonPath("$[0].salary").value(employee.getSalary()))
+                .andExpect(jsonPath("$[0].salery").value(employee.getSalery()))
                 .andExpect(jsonPath("$[0].age").value(employee.getAge()));
     }
 
     @Test
-    void should_return_employees_when_get_employees_given_id() throws Exception{
+    void should_return_employees_when_get_employees_given_id() throws Exception {
         //given
         Company company = new Company(1, "OOCL", 10000, null);
         Company savedCompany = companyRepository.save(company);
 
-        Employee employee1 = new Employee(1,"user1", 18, "male", 1000.0, savedCompany.getCompany_id());
-        Employee employee2 = new Employee(2,"user2", 19, "female", 9000.0, savedCompany.getCompany_id());
+        Employee employee1 = new Employee("user1", 18, "male", 1000.0, savedCompany.getCompany_id());
+        Employee employee2 = new Employee("user2", 19, "female", 9000.0, savedCompany.getCompany_id());
         employeeRepository.save(employee1);
         Employee savedEmployee = employeeRepository.save(employee2);
 
@@ -73,19 +73,19 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.id").value(savedEmployee.getId()))
                 .andExpect(jsonPath("$.name").value(employee2.getName()))
                 .andExpect(jsonPath("$.gender").value(employee2.getGender()))
-                .andExpect(jsonPath("$.salary").value(employee2.getSalary()))
+                .andExpect(jsonPath("$.salery").value(employee2.getSalery()))
                 .andExpect(jsonPath("$.age").value(employee2.getAge()));
     }
 
     @Test
-    void should_return_employees_when_get_employees_given_page_and_pageSize() throws Exception{
+    void should_return_employees_when_get_employees_given_page_and_pageSize() throws Exception {
         //given
         Company company = new Company(1, "OOCL", 10000, null);
         Company savedCompany = companyRepository.save(company);
 
-        Employee employee1 = new Employee(1,"user1", 25, "male", 8000.0, savedCompany.getCompany_id());
-        Employee employee2 = new Employee(2,"user2", 22, "female", 9000.0, savedCompany.getCompany_id());
-        Employee employee3 = new Employee(3,"user3", 21, "female", 9000.0, savedCompany.getCompany_id());
+        Employee employee1 = new Employee("user1", 25, "male", 8000.0, savedCompany.getCompany_id());
+        Employee employee2 = new Employee("user2", 22, "female", 9000.0, savedCompany.getCompany_id());
+        Employee employee3 = new Employee("user3", 21, "female", 9000.0, savedCompany.getCompany_id());
         employeeRepository.save(employee1);
         employeeRepository.save(employee2);
         employeeRepository.save(employee3);
@@ -95,19 +95,19 @@ public class EmployeeIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value(employee3.getName()))
                 .andExpect(jsonPath("$[0].gender").value(employee3.getGender()))
-                .andExpect(jsonPath("$[0].salary").value(employee3.getSalary()))
+                .andExpect(jsonPath("$[0].salery").value(employee3.getSalery()))
                 .andExpect(jsonPath("$[0].age").value(employee3.getAge()));
     }
 
     @Test
-    void should_return_employees_when_get_employees_given_gender() throws Exception{
+    void should_return_employees_when_get_employees_given_gender() throws Exception {
         //given
         Company company = new Company(1, "OOCL", 10000, null);
         Company savedCompany = companyRepository.save(company);
 
-        Employee employee1 = new Employee(1,"user1", 25, "male", 8000.0, savedCompany.getCompany_id());
-        Employee employee2 = new Employee(2,"user2", 22, "female", 9000.0, savedCompany.getCompany_id());
-        Employee employee3 = new Employee(3,"user3", 21, "female", 9000.0, savedCompany.getCompany_id());
+        Employee employee1 = new Employee("user1", 25, "male", 8000.0, savedCompany.getCompany_id());
+        Employee employee2 = new Employee("user2", 22, "female", 9000.0, savedCompany.getCompany_id());
+        Employee employee3 = new Employee("user3", 21, "female", 9000.0, savedCompany.getCompany_id());
         employeeRepository.save(employee1);
         employeeRepository.save(employee2);
         employeeRepository.save(employee3);
@@ -118,12 +118,12 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[1].name").value(employee3.getName()))
                 .andExpect(jsonPath("$[1].gender").value(employee3.getGender()))
-                .andExpect(jsonPath("$[1].salary").value(employee3.getSalary()))
+                .andExpect(jsonPath("$[1].salery").value(employee3.getSalery()))
                 .andExpect(jsonPath("$[1].age").value(employee3.getAge()));
     }
 
     @Test
-    void should_return_employee_when_add_employee_given_employee() throws Exception{
+    void should_return_employee_when_add_employee_given_employee() throws Exception {
         //given
         Company company = new Company(1, "OOCL", 10000, null);
         Company savedCompany = companyRepository.save(company);
@@ -134,8 +134,8 @@ public class EmployeeIntegrationTest {
                 "    \"name\": \"Zero\",\n" +
                 "    \"age\": 25,\n" +
                 "    \"gender\": \"male\",\n" +
-                "    \"salary\": 30000,\n" +
-                "    \"companyId\" : " + savedCompany.getCompany_id()+"\n" +
+                "    \"salery\": 30000,\n" +
+                "    \"companyId\" : " + savedCompany.getCompany_id() + "\n" +
                 "}";
 
         //when
@@ -143,12 +143,12 @@ public class EmployeeIntegrationTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value(employee.getName()))
                 .andExpect(jsonPath("$.gender").value(employee.getGender()))
-                .andExpect(jsonPath("$.salary").value(employee.getSalary()))
+                .andExpect(jsonPath("$.salary").value(employee.getSalery()))
                 .andExpect(jsonPath("$.age").value(employee.getAge()));
     }
 
     @Test
-    void should_return_employee_when_update_employee_given_employee() throws Exception{
+    void should_return_employee_when_update_employee_given_employee() throws Exception {
         //given
         Company company = new Company(1, "OOCL", 10000, null);
         Company savedCompany = companyRepository.save(company);
@@ -160,8 +160,8 @@ public class EmployeeIntegrationTest {
                 "    \"name\": \"Hans\",\n" +
                 "    \"age\": 28,\n" +
                 "    \"gender\": \"female\",\n" +
-                "    \"salary\": 48000,\n" +
-                "    \"companyId\" : " + savedCompany.getCompany_id()+"\n" +
+                "    \"salery\": 48000,\n" +
+                "    \"companyId\" : " + savedCompany.getCompany_id() + "\n" +
                 "}";
 
         //when
@@ -170,18 +170,18 @@ public class EmployeeIntegrationTest {
                 .andExpect(jsonPath("$.id").value(zeroSaved.getId()))
                 .andExpect(jsonPath("$.name").value("Hans"))
                 .andExpect(jsonPath("$.gender").value("female"))
-                .andExpect(jsonPath("$.salary").value(48000))
+                .andExpect(jsonPath("$.salery").value(48000))
                 .andExpect(jsonPath("$.age").value(28));
     }
 
     @Test
-    void should_delete_employee_when_delete_employee_given_id() throws Exception{
+    void should_delete_employee_when_delete_employee_given_id() throws Exception {
         //given
         Company company = new Company(1, "OOCL", 10000, null);
         Company savedCompany = companyRepository.save(company);
 
 
-        Employee employee2 = new Employee(2,"user2", 19, "female", 9000.0, savedCompany.getCompany_id());
+        Employee employee2 = new Employee("user2", 19, "female", 9000.0, savedCompany.getCompany_id());
         Employee employeeSave = employeeRepository.save(employee2);
 
         //when
@@ -190,4 +190,5 @@ public class EmployeeIntegrationTest {
         assertEquals(false, employeeRepository.findById(employeeSave.getId()).isPresent());
 
     }
+
 }

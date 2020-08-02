@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
-import com.thoughtworks.springbootemployee.model.Company;
+import com.thoughtworks.springbootemployee.dto.EmployeeRequestDto;
+import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ public class EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+    private EmployeeMapper employeeMapper = new EmployeeMapper();
 
     public List<Employee> findAll() {
         return this.employeeRepository.findAll();
@@ -23,7 +25,8 @@ public class EmployeeService {
         return this.employeeRepository.findAll(PageRequest.of(page, pageSize)).toList();
     }
 
-    public Employee add(Employee employee) {
+    public Employee create(EmployeeRequestDto employeeRequestDto) {
+        Employee employee = employeeMapper.toEmployeeEntity(employeeRequestDto);
         return this.employeeRepository.save(employee);
     }
 
@@ -35,15 +38,16 @@ public class EmployeeService {
         return this.employeeRepository.findAllByGender(gender);
     }
 
-    public Employee update(int employeeId, Employee employe) {
+    public Employee update(int employeeId, EmployeeRequestDto employeeRequestDto) {
+        Employee employee = employeeMapper.toEmployeeEntity(employeeRequestDto);
         Employee employeeUpdated = this.employeeRepository.findById(employeeId).orElse(null);
         if (employeeUpdated == null) {
             return null;
         }
-        employeeUpdated.setName(employe.getName());
-        employeeUpdated.setAge(employe.getAge());
-        employeeUpdated.setGender(employe.getGender());
-        employeeUpdated.setSalary(employe.getSalary());
+        employeeUpdated.setName(employee.getName());
+        employeeUpdated.setAge(employee.getAge());
+        employeeUpdated.setGender(employee.getGender());
+        employeeUpdated.setSalery(employee.getSalery());
         return this.employeeRepository.save(employeeUpdated);
     }
 
