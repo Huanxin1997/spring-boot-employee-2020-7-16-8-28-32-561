@@ -1,16 +1,13 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
-import com.thoughtworks.springbootemployee.respority.EmployeeRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -18,37 +15,39 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+    public List<Employee> findAll() {
+        return this.employeeRepository.findAll();
     }
 
-    public Employee getEmployeeById(Integer id) {
-        return employeeRepository.findById(id).orElse(null);
+    public List<Employee> findAll(int page, int pageSize) {
+        return this.employeeRepository.findAll(PageRequest.of(page, pageSize)).toList();
     }
 
-    public PageImpl<Employee> getEmployeeByPage(int page, int page_size) {
-        return (PageImpl<Employee>) employeeRepository.findAll(PageRequest.of(page, page_size));
+    public Employee add(Employee employee) {
+        return this.employeeRepository.save(employee);
     }
 
-    public List<Employee> getEmployeeByGender(String gender) {
-        return employeeRepository.findByGender(gender);
+    public Employee findById(int employeeId) {
+        return employeeRepository.findById(employeeId).orElse(null);
     }
 
-    public Employee createEmployee(Employee employee) {
-        return employeeRepository.save(employee);
+    public List<Employee> findAllByGender(String gender) {
+        return this.employeeRepository.findAllByGender(gender);
     }
 
-    public Employee updataEmployee(Integer id, Employee employeeInfo) {
-        Employee employee = getEmployeeById(id);
-        employee.setAge(employeeInfo.getAge());
-        employee.setGender(employeeInfo.getGender());
-        employee.setSalary(employeeInfo.getSalary());
-        employee.setName(employeeInfo.getName());
-        return employeeRepository.save(employee);
+    public Employee update(int employeeId, Employee employe) {
+        Employee employeeUpdated = this.employeeRepository.findById(employeeId).orElse(null);
+        if (employeeUpdated == null) {
+            return null;
+        }
+        employeeUpdated.setName(employe.getName());
+        employeeUpdated.setAge(employe.getAge());
+        employeeUpdated.setGender(employe.getGender());
+        employeeUpdated.setSalary(employe.getSalary());
+        return this.employeeRepository.save(employeeUpdated);
     }
 
-    public Boolean removeEmployee(Integer employeeId) {
-        employeeRepository.deleteById(employeeId);
-        return getEmployeeById(employeeId) == null;
+    public void deleteEmployeeById(int i) {
+        employeeRepository.deleteById(i);
     }
 }
