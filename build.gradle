@@ -8,9 +8,8 @@ plugins {
 }
 
 repositories {
-    maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/'}
-    maven{ url 'http://maven.aliyun.com/nexus/content/repositories/jcenter'}
-    mavenLocal()
+    maven{ url'http://maven.aliyun.com/nexus/content/groups/public/'}
+    mavenCentral()
 }
 
 jacocoTestReport {
