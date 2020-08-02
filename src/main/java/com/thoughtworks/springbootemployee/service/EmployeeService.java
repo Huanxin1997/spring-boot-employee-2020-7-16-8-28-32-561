@@ -25,8 +25,7 @@ public class EmployeeService {
         return this.employeeRepository.findAll(PageRequest.of(page, pageSize)).toList();
     }
 
-    public Employee create(EmployeeRequestDto employeeRequestDto) {
-        Employee employee = employeeMapper.toEmployeeEntity(employeeRequestDto);
+    public Employee create(Employee employee) {
         return this.employeeRepository.save(employee);
     }
 
@@ -38,8 +37,7 @@ public class EmployeeService {
         return this.employeeRepository.findAllByGender(gender);
     }
 
-    public Employee update(int employeeId, EmployeeRequestDto employeeRequestDto) {
-        Employee employee = employeeMapper.toEmployeeEntity(employeeRequestDto);
+    public Employee update(int employeeId, Employee employee) {
         Employee employeeUpdated = this.employeeRepository.findById(employeeId).orElse(null);
         if (employeeUpdated == null) {
             return null;

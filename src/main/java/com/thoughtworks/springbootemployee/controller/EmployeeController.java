@@ -1,6 +1,5 @@
 package com.thoughtworks.springbootemployee.controller;
 
-import com.thoughtworks.springbootemployee.dto.EmployeeRequestDto;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +36,14 @@ public class EmployeeController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee insertEmployees(@RequestBody EmployeeRequestDto employeeRequestDto) {
-        return employeeService.create(employeeRequestDto);
+    public Employee insertEmployees(@RequestBody Employee employee) {
+        return employeeService.create(employee);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Employee updateEmployeeById(@PathVariable int id, @RequestBody EmployeeRequestDto employeeRequestDto){
-        return employeeService.update(id, employeeRequestDto);
+    public Employee updateEmployeeById(@PathVariable int id, @RequestBody Employee employee){
+        return employeeService.update(id, employee);
     }
 
     @DeleteMapping("/{id}")
