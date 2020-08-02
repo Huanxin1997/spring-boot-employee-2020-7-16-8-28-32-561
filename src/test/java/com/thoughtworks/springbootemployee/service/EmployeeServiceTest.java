@@ -2,7 +2,6 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeRequestDto;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
-import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
@@ -25,9 +24,6 @@ public class EmployeeServiceTest {
 
     @InjectMocks
     private EmployeeService employeeService;
-
-    @InjectMocks
-    private CompanyService companyService;
 
     @Test
     void should_return_employees_when_get_employees_given_no_parameter() {
@@ -65,7 +61,7 @@ public class EmployeeServiceTest {
         String gender = "male";
         when(employeeRepository.findAllByGender(gender)).
                 thenReturn(
-                        Collections.singletonList(new Employee(1, "user1", 18, "male", 10000.0))
+                        Collections.singletonList(new Employee(1, "user1", 18, "male", 1000.0))
                 );
         //when
         List<Employee> employees = employeeService.findAllByGender(gender);
@@ -77,38 +73,33 @@ public class EmployeeServiceTest {
     @Test
     void should_return_employee_when_add_employee_given_employee() {
         //given
-        Company company = companyService.add(new Company());
-        EmployeeRequestDto employeeRequestDto = new EmployeeRequestDto(22,"user1", "male", company.getCompany_id(), 10000.0);
-        EmployeeMapper employeeMapper = new EmployeeMapper();
-        Employee employee = employeeMapper.toEmployeeEntity(employeeRequestDto);
+        Employee employee = new Employee(1, "user1", 18, "male", 10000.0);
         when(employeeRepository.save(employee)).thenReturn(employee);
 
         //when
-        Employee createdEmployee = employeeService.create(employeeRequestDto);
+        Employee createdEmployee = employeeService.create(employee);
         //then
         assertEquals(10000, createdEmployee.getSalery());
         assertEquals("user1", createdEmployee.getName());
-        assertEquals(22, createdEmployee.getAge());
+        assertEquals(18, createdEmployee.getAge());
     }
 
     @Test
     void should_return_updated_employee_when_update_employee_given_id_and_company() {
         //given
         int employeeId = 1;
-        Employee employeeBefore = new Employee(1,"user1", 18, "male", 1000.0);
-        EmployeeRequestDto employeeAfterDto = new EmployeeRequestDto(2,"user2", "female", 1, 19000.0);
-        EmployeeMapper employeeMapper = new EmployeeMapper();
-        Employee employee = employeeMapper.toEmployeeEntity(employeeAfterDto);
+        Employee employeeBefore = new Employee(1,"user1", 18, "male", 10000.0);
+        Employee employeeAfter = new Employee(2,"user2", 18, "female", 20000.0);
         when(employeeRepository.findById(employeeId))
                 .thenReturn(Optional.of(employeeBefore));
-        when(employeeRepository.save(employee)).thenReturn(employee);
+        when(employeeRepository.save(employeeBefore)).thenReturn(employeeAfter);
 
         //when
-        Employee employeeUpdated = this.employeeService.update(employeeId, employeeAfterDto);
+        Employee employeeUpdated = this.employeeService.update(employeeId, employeeAfter);
 
         //then
-        assertEquals(employee.getName(), employeeUpdated.getName());
-        assertEquals(employee.getGender(), employeeUpdated.getGender());
+        assertEquals(employeeAfter.getName(), employeeUpdated.getName());
+        assertEquals(employeeAfter.getAge(), employeeUpdated.getAge());
     }
 
     @Test

@@ -143,7 +143,7 @@ public class EmployeeIntegrationTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.name").value(employee.getName()))
                 .andExpect(jsonPath("$.gender").value(employee.getGender()))
-                .andExpect(jsonPath("$.salary").value(employee.getSalery()))
+                .andExpect(jsonPath("$.salery").value(employee.getSalery()))
                 .andExpect(jsonPath("$.age").value(employee.getAge()));
     }
 
