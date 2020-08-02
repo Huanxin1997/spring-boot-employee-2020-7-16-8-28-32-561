@@ -1,38 +1,54 @@
 package com.thoughtworks.springbootemployee.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Objects;
+import javax.persistence.*;
 
 @Entity
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
+    private Integer age;
     private String gender;
-    private int age;
-    private int salary;
+    private Double salary;
+    private Integer companyId;
 
     public Employee() {
     }
 
-    public int getId() {
+    public Employee(Integer id, String name, Integer age, String gender, Double salary) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.salary = salary;
+
+    }
+
+    public Employee(Integer id, String name, Integer age, String gender, Double salary, Integer companyId) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.salary = salary;
+        this.companyId = companyId;
+    }
+
+    public Employee(String name, Integer age, String gender, Double salary, Integer companyId ) {
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+        this.salary = salary;
+        this.companyId = companyId;
+
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     public String getName() {
@@ -43,31 +59,35 @@ public class Employee {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
-    public int getSalary() {
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public Double getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(Double salary) {
         this.salary = salary;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return id == employee.id &&
-                age == employee.age &&
-                salary == employee.salary &&
-                Objects.equals(name, employee.name) &&
-                Objects.equals(gender, employee.gender);
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 }

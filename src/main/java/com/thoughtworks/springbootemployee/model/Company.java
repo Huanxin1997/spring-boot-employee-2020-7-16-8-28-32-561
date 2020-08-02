@@ -2,33 +2,34 @@ package com.thoughtworks.springbootemployee.model;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Company {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String companyName;
-    @OneToMany
+    private Integer employeesNumber;
+
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "companyId")
     private List<Employee> employees;
 
     public Company() {
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Company company = (Company) o;
-        return id == company.id &&
-                Objects.equals(companyName, company.companyName) &&
-                employees.equals(company.employees);
+    public Company(Integer id, String companyName, Integer employeesNumber, List<Employee> employees) {
+        this.id = id;
+        this.companyName = companyName;
+        this.employeesNumber = employeesNumber;
+        this.employees = employees;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, companyName, employees);
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getCompanyName() {
@@ -39,12 +40,12 @@ public class Company {
         this.companyName = companyName;
     }
 
-    public int getId() {
-        return id;
+    public Integer getEmployeesNumber() {
+        return employeesNumber;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setEmployeesNumber(Integer employeesNumber) {
+        this.employeesNumber = employeesNumber;
     }
 
     public List<Employee> getEmployees() {
