@@ -4,60 +4,55 @@ import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
-    List<Company> companies = new LinkedList<>();
 
     @Autowired
     private CompanyService companyService;
 
-    public CompanyController() {
-    }
-
     @GetMapping
-    public List<Company> getCompanies(
-            @RequestParam(required = false, defaultValue = "0") int page,
-            @RequestParam(required = false, defaultValue = "0") int pageSize
-    ) {
-        if (page == 0) {
-            return companyService.getAllCompanies();
-        } else {
-            return (List<Company>) companyService.getCompanyByPage(page, pageSize);
+    @ResponseStatus(HttpStatus.OK)
+    public List<Company> getCompanies(Integer page, Integer pageSize) {
+        if (page != null || pageSize != null) {
+            return companyService.findAll(page, pageSize);
         }
-    }
-
-    @PostMapping
-    public Company createCompany(@RequestBody Company company) {
-        return companyService.createCompany(company);
+        return companyService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Company getCompany(@PathVariable int id) {
-        return companyService.getCompanyById(id);
+    @ResponseStatus(HttpStatus.OK)
+    public Company getCompanyById(@PathVariable int id) {
+        return companyService.findById(id);
     }
 
     @GetMapping("/{id}/employees")
-    public List<Employee> getAllEmployees(@PathVariable int id) {
-        return companyService.getCompanyEmployeesById(id);
+    @ResponseStatus(HttpStatus.OK)
+    public List<Employee> getAllEmployeesByCompanyId(@PathVariable int id) {
+        return companyService.findEmployeesById(id);
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Company insertCompany(@RequestBody Company company) {
+        return companyService.add(company);
     }
 
     @PutMapping("/{id}")
-    public Company updateCompany(@PathVariable int id, @RequestBody Company company) {
-        Company updatedCompany = companyService.updateCompany(id, company);
-        return updatedCompany;
+    @ResponseStatus(HttpStatus.OK)
+    public Company updateCompanyById(@PathVariable int id, @RequestBody Company company){
+        return companyService.update(id, company);
     }
 
     @DeleteMapping("/{id}")
-//    TODO return type
-    public String deleteAllEmployees(@PathVariable int id) {
-        companyService.removeCompany(id);
-        return "Delete Success";
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAllEmployeesByCompanyId(@PathVariable int id) {
+        companyService.deleteById(id);
     }
 }
-
