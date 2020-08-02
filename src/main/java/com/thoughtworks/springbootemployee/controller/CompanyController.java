@@ -46,13 +46,16 @@ public class CompanyController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Company updateCompanyById(@PathVariable int id, @RequestBody Company company){
+    public Company updateCompanyById(@PathVariable int id, @RequestBody Company company) {
         return companyService.update(id, company);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteAllEmployeesByCompanyId(@PathVariable int id) {
-        companyService.deleteById(id);
+    public String deleteAllEmployeesByCompanyId(@PathVariable int id) {
+        if (companyService.deleteById(id)) return "Delete employees Success";
+        else {
+            return "Delete fail";
+        }
     }
 }
