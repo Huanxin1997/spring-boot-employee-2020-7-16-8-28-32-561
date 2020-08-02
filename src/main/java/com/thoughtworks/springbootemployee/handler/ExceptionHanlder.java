@@ -2,26 +2,28 @@ package com.thoughtworks.springbootemployee.handler;
 
 import com.thoughtworks.springbootemployee.exceptioin.NotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @ControllerAdvice
 public class ExceptionHanlder {
 
-    @ExceptionHandler(NotFoundException.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String notFound(NotFoundException notFoundException) {
-        return "Not found this data";
+    @ExceptionHandler(NotFoundException.class)
+    public String handleNotFound(NotFoundException exception) {
+        return exception.getMessage();
     }
 
-    @ExceptionHandler(HttpClientErrorException.BadRequest.class)
-    @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String badRequest(NotFoundException notFoundException) {
-        return "Bad Request, please check your params";
+    @ExceptionHandler(Exception.class)
+    public String handleOthers(Exception e) {
+        return String.format("%s : %s", e.getCause(), e.getMessage());
     }
 }
