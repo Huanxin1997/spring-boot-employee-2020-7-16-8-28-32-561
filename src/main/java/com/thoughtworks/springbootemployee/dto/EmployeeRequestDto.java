@@ -17,12 +17,7 @@ public class EmployeeRequestDto {
         this.salery = salery;
     }
 
-    public EmployeeRequestDto(String name, Integer age, String gender, Double salery, Integer company_id) {
-        this.age = age;
-        this.name = name;
-        this.gender = gender;
-        this.company_id = company_id;
-        this.salery = salery;
+    public EmployeeRequestDto() {
     }
 
 

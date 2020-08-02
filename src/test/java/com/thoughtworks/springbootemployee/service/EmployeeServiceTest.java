@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeRequestDto;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
+import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,9 @@ public class EmployeeServiceTest {
 
     @InjectMocks
     private EmployeeService employeeService;
+
+    @InjectMocks
+    private CompanyService companyService;
 
     @Test
     void should_return_employees_when_get_employees_given_no_parameter() {
@@ -73,7 +77,8 @@ public class EmployeeServiceTest {
     @Test
     void should_return_employee_when_add_employee_given_employee() {
         //given
-        EmployeeRequestDto employeeRequestDto = new EmployeeRequestDto(22,"user1", "male", 1, 10000.0);
+        Company company = companyService.add(new Company());
+        EmployeeRequestDto employeeRequestDto = new EmployeeRequestDto(22,"user1", "male", company.getCompany_id(), 10000.0);
         EmployeeMapper employeeMapper = new EmployeeMapper();
         Employee employee = employeeMapper.toEmployeeEntity(employeeRequestDto);
         when(employeeRepository.save(employee)).thenReturn(employee);
@@ -91,7 +96,7 @@ public class EmployeeServiceTest {
         //given
         int employeeId = 1;
         Employee employeeBefore = new Employee(1,"user1", 18, "male", 1000.0);
-        EmployeeRequestDto employeeAfterDto = new EmployeeRequestDto(2,"user2", "female", 2, 19000.0);
+        EmployeeRequestDto employeeAfterDto = new EmployeeRequestDto(2,"user2", "female", 1, 19000.0);
         EmployeeMapper employeeMapper = new EmployeeMapper();
         Employee employee = employeeMapper.toEmployeeEntity(employeeAfterDto);
         when(employeeRepository.findById(employeeId))
