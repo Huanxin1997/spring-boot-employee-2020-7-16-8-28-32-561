@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeRequestDto;
+import com.thoughtworks.springbootemployee.exceptioin.NotFoundException;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
@@ -85,7 +86,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_updated_employee_when_update_employee_given_id_and_company() {
+    void should_return_updated_employee_when_update_employee_given_id_and_company() throws NotFoundException {
         //given
         int employeeId = 1;
         Employee employeeBefore = new Employee(1,"user1", 18, "male", 10000.0);

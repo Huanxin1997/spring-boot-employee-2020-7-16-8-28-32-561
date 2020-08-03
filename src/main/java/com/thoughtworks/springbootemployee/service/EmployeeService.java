@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.dto.EmployeeRequestDto;
+import com.thoughtworks.springbootemployee.exceptioin.NotFoundException;
 import com.thoughtworks.springbootemployee.mapper.EmployeeMapper;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
@@ -37,8 +38,8 @@ public class EmployeeService {
         return this.employeeRepository.findAllByGender(gender);
     }
 
-    public Employee update(int employeeId, Employee employee) {
-        Employee employeeUpdated = this.employeeRepository.findById(employeeId).orElse(null);
+    public Employee update(int employeeId, Employee employee) throws NotFoundException {
+        Employee employeeUpdated = this.employeeRepository.findById(employeeId).orElseThrow(NotFoundException::new);
         if (employeeUpdated == null) {
             return null;
         }
@@ -46,10 +47,12 @@ public class EmployeeService {
         employeeUpdated.setAge(employee.getAge());
         employeeUpdated.setGender(employee.getGender());
         employeeUpdated.setSalery(employee.getSalery());
+        employeeUpdated.setCompany_id(employee.getCompany_id());
         return this.employeeRepository.save(employeeUpdated);
     }
 
-    public void deleteEmployeeById(int i) {
+    public Boolean deleteEmployeeById(int i) {
         employeeRepository.deleteById(i);
+        return !employeeRepository.findById(i).isPresent();
     }
 }

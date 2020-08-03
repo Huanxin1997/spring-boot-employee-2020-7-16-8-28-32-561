@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.exceptioin.NotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.CompanyService;
@@ -28,13 +29,13 @@ public class CompanyController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Company getCompanyById(@PathVariable int id) {
+    public Company getCompanyById(@PathVariable int id) throws NotFoundException {
         return companyService.findById(id);
     }
 
     @GetMapping("/{id}/employees")
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> getAllEmployeesByCompanyId(@PathVariable int id) {
+    public List<Employee> getAllEmployeesByCompanyId(@PathVariable int id) throws NotFoundException {
         return companyService.findEmployeesById(id);
     }
 
@@ -46,13 +47,13 @@ public class CompanyController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Company updateCompanyById(@PathVariable int id, @RequestBody Company company) {
+    public Company updateCompanyById(@PathVariable int id, @RequestBody Company company) throws NotFoundException {
         return companyService.update(id, company);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteAllEmployeesByCompanyId(@PathVariable int id) {
+    public String deleteAllEmployeesByCompanyId(@PathVariable int id) throws NotFoundException {
         if (companyService.deleteById(id)) return "Delete employees Success";
         else {
             return "Delete fail";

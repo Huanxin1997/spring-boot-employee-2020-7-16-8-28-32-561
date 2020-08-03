@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exceptioin.NotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
@@ -42,7 +43,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_company_when_get_company_by_id_given_1() {
+    void should_return_company_when_get_company_by_id_given_1() throws NotFoundException {
         //given
         int companyId = 1;
         when(companyRepository.findById(companyId)).
@@ -58,7 +59,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_employees_when_get_employees_by_company_id_given_1() {
+    void should_return_employees_when_get_employees_by_company_id_given_1() throws NotFoundException {
         //given
         int companyId = 1;
         when(companyRepository.findById(companyId)).
@@ -87,7 +88,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_updated_company_when_update_company_given_id_and_company() {
+    void should_return_updated_company_when_update_company_given_id_and_company() throws NotFoundException {
         //given
         int companyId = 1;
         Company companyBefore = new Company(companyId, "TW", 2, new ArrayList<>());
@@ -105,7 +106,7 @@ public class CompanyServiceTest {
     }
 
     @Test
-    void should_return_void_when_delete_company_given_company_id() {
+    void should_return_void_when_delete_company_given_company_id() throws NotFoundException {
         //given
         int companyId = 1;
 

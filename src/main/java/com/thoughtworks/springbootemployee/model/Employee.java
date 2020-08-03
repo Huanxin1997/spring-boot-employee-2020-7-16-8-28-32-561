@@ -1,7 +1,5 @@
 package com.thoughtworks.springbootemployee.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
 
 @Entity
@@ -18,13 +16,13 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, Integer age, String gender, Double salery, Integer companyId) {
+    public Employee(String name, Integer age, String gender, Double salery, Integer company_id) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.salery = salery;
-        this.companyId = companyId;
+        this.companyId = company_id;
     }
 
     public Employee(Integer id, String name, Integer age, String gender, Double salery) {
@@ -83,11 +81,11 @@ public class Employee {
         this.salery = salery;
     }
 
-    public Integer getCompanyId() {
+    public Integer getCompany_id() {
         return companyId;
     }
 
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
+    public void setCompany_id(Integer company_id) {
+        this.companyId = company_id;
     }
 }

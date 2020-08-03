@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.controller;
 
+import com.thoughtworks.springbootemployee.exceptioin.NotFoundException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import java.util.List;
 @RequestMapping("/employees")
 public class EmployeeController {
 
+    public static final String DELETE_SUCCESS = "Delete Success";
+    public static final String DELETE_FAIL = "Delete fail";
     @Autowired
     private EmployeeService employeeService;
 
@@ -42,13 +45,18 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Employee updateEmployeeById(@PathVariable int id, @RequestBody Employee employee){
+    public Employee updateEmployeeById(@PathVariable int id, @RequestBody Employee employee) throws NotFoundException {
+        System.out.println(employee);
         return employeeService.update(id, employee);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteAllEmployeesById(@PathVariable int id) {
-        employeeService.deleteEmployeeById(id);
+    public String deleteAllEmployeesById(@PathVariable int id) {
+        if(employeeService.deleteEmployeeById(id)) {
+            return DELETE_SUCCESS;
+        } else {
+            return DELETE_FAIL;
+        }
     }
 }

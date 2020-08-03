@@ -23,7 +23,7 @@ public class EmployeeRequestDto {
 
     public static Employee toEmployeeEntity(EmployeeRequestDto employeeRequestDto) {
         Employee employee = new Employee();
-        employee.setCompanyId(employeeRequestDto.getCompany_id());
+        employee.setCompany_id(employeeRequestDto.getCompany_id());
         employee.setName(employeeRequestDto.getName());
         employee.setGender(employeeRequestDto.getGender());
         employee.setAge(employeeRequestDto.getAge());

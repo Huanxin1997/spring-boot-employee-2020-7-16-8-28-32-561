@@ -1,5 +1,6 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exceptioin.NotFoundException;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
@@ -23,12 +24,12 @@ public class CompanyService {
         return this.companyRepository.findAll(PageRequest.of(page, pageSize)).toList();
     }
 
-    public Company findById(int companyId) {
-        return this.companyRepository.findById(companyId).orElse(null);
+    public Company findById(int companyId) throws NotFoundException {
+        return this.companyRepository.findById(companyId).orElseThrow(NotFoundException::new);
     }
 
-    public List<Employee> findEmployeesById(int companyId) {
-        Company company = this.companyRepository.findById(companyId).orElse(null);
+    public List<Employee> findEmployeesById(int companyId) throws NotFoundException {
+        Company company = this.companyRepository.findById(companyId).orElseThrow(NotFoundException::new);
         return company == null ? null : company.getEmployees();
     }
 
@@ -36,8 +37,8 @@ public class CompanyService {
         return this.companyRepository.save(company);
     }
 
-    public Company update(int companyId, Company company) {
-        Company companyUpdated = this.companyRepository.findById(companyId).orElse(null);
+    public Company update(int companyId, Company company) throws NotFoundException {
+        Company companyUpdated = this.companyRepository.findById(companyId).orElseThrow(NotFoundException::new);
         if (companyUpdated == null) {
             return null;
         }
@@ -46,8 +47,9 @@ public class CompanyService {
         return this.companyRepository.save(companyUpdated);
     }
 
-    public boolean deleteById(int companyId) {
+    public boolean deleteById(int companyId) throws NotFoundException {
+       // findById(companyId);
         companyRepository.deleteById(companyId);
-        return findById(companyId) == null;
+        return true;
     }
 }

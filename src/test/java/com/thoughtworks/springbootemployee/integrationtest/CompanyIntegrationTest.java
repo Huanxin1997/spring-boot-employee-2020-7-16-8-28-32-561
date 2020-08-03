@@ -140,7 +140,7 @@ public class CompanyIntegrationTest {
     @Test
     void should_delete_company_when_delete_company_given_id() throws Exception{
         //given
-        Company company = new Company(1, "OOCL", 10000, null);
+        Company company = new Company(null, "OOCL", 10000, null);
         Company savedCompany = companyRepository.save(company);
 
 
